@@ -1,0 +1,88 @@
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.App {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: sans-serif;
+  text-align: center;
+  gap: 20px;
+  padding: 10px;
+}
+
+.light-parent {
+  height: 300px;
+  width: 120px;
+  border: 1px solid black;
+  border-radius: 40px;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+}
+
+.light-box {
+  height: 75px;
+  width: 75px;
+  border: 1px solid black;
+  border-radius: 50px;
+  opacity: 0.2;
+}
+.red {
+  background-color: red;
+}
+
+.yellow {
+  background-color: yellow;
+}
+
+.green {
+  background-color: green;
+}
+
+.active {
+  opacity: 1;
+}
+
+.control-parent {
+  border: 1px solid black;
+  padding: 50px;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.control-custom {
+  display: flex;
+  gap: 10px;
+}
+
+.control-custom input {
+  width: 50px;
+}
+
+.control-custom button {
+  width: 50px;
+  padding: 5px;
+}
+
+.control-default {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.control-default button {
+  width: 50px;
+  padding: 5px;
+}
