@@ -11,7 +11,6 @@ Build a traffic light that:
 - Cycles through **red → yellow → green** with given durations.
 - Allows **instant** switch to any color.
 - Lets users set **custom time + color** and start immediately.
-- Avoids timer **drift** (background tabs, jank, sleep/wake).
 
 ---
 
