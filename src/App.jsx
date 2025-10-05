@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import "./index.css";
 
 export default function App() {
@@ -25,38 +25,51 @@ const lightMap = {
 };
 
 function TrafficLight() {
-  const [activeLight, setActiveLight] = useState("red");
-  const [remainingTime, setRemainingTime] = useState(lightMap.red.time);
+  const [activeLight, setActiveLight] = useState();
+  const [remainingTime, setRemainingTime] = useState();
   const intervalId = useRef();
   const inputRef = useRef();
   const selectRef = useRef();
+  const timerId = useRef();
+  const showNextColor = useRef(false);
+  const untilTimestamp = useRef();
 
   useEffect(() => {
-    updateLight("red", lightMap.red.time);
+    showNextColor.current = true;
 
     return () => {
       clearInterval(intervalId.current);
+      clearTimeout(timerId.current);
     };
   }, []);
 
   useEffect(() => {
-    if (remainingTime <= 0) {
-      clearInterval(intervalId.current);
-      let nextColor = lightMap[activeLight].nextColor;
-      let nextTime = lightMap[nextColor].time;
+    if (showNextColor.current === true) {
+      let nextColor = lightMap?.[activeLight]?.nextColor || "red";
+      let nextTime = lightMap?.[nextColor]?.time || lightMap.red.time;
       updateLight(nextColor, nextTime);
+      showNextColor.current = false;
     }
-  }, [remainingTime]);
+  }, [showNextColor.current]);
 
-  const updateLight = (light, time) => {
+  const updateLight = useCallback((light, time) => {
     clearInterval(intervalId.current);
+    clearTimeout(timerId.current);
     setActiveLight(light);
     setRemainingTime(time);
+    untilTimestamp.current = Date.now() + (time * 1000);
 
+    // interval only for UI changes
     intervalId.current = setInterval(() => {
-      setRemainingTime((remTime) => remTime - 1);
+      let secsElapsed = Math.ceil((untilTimestamp.current - Date.now()) / 1000);
+      setRemainingTime(secsElapsed);
     }, 1000);
-  };
+
+    // set another timer too here
+    timerId.current = setTimeout(() => {
+      showNextColor.current = true;
+    }, time * 1000);
+  }, []);
 
   const handleCustomLight = () => {
     const newTime = +inputRef.current.value || 0;
